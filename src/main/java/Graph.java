@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class: Graph
@@ -7,10 +8,20 @@ import java.util.ArrayList;
  */
 public class Graph {
     // The graph to be maintained and used
-    ArrayList<Node> graph = new ArrayList<Node>();
+    List<Node> graph = new ArrayList<Node>();
 
     // Size of the graph --> Number of nodes
     int numNodes;
+
+    /**
+     * Constructor
+     *
+     *
+     * @param graphFile text file to create the graph from as argument
+     */
+    public void Graph(String graphFile){
+
+    }
 
     /**
      * Function: initGraph
