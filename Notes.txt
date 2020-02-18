@@ -1,0 +1,10 @@
+Graph Data: https://github.com/davidbsp/patrolling_sim.git
+Graph Rep: https://stackoverflow.com/questions/1737627/java-how-to-represent-graphs
+
+Need the program flow:
+- Start program
+- Initialize the graph
+- Initialize the agents
+    -
+    - Place each one into the queue
+-
