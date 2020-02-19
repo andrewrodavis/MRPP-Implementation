@@ -1,3 +1,9 @@
+/**
+ *
+ * Sources:
+ *      https://www.tutorialspoint.com/java/java_hashmap_class.htm
+ */
+
 import java.util.HashMap;
 
 public class Node {
@@ -9,7 +15,7 @@ public class Node {
     public double avgIdleTime;
 
     // Hash for easy access to weights of neighbors
-    HashMap<String, Integer> neighborConns = new HashMap<String, Integer>();
+    HashMap<Node, Integer> neighborList = new HashMap<Node, Integer>();
 
     public Node(String name){
         this.name = name;

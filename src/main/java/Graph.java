@@ -76,11 +76,19 @@ public class Graph {
                 continue;
             }
 
-            //Iterate over the number of neighbors for the current node. Add the neighbor vertex and weight to the hashmap of Node
+            //Iterate over the number of neighbors for the current node. Add the neighbor node object and weight to the hashmap of Node
             for(int j = 0; j < this.graph.get(i).numNeighbors; j++){
+                // Get the name and weight from the file
                 String name = linesFromFile.remove();
                 int weight = Integer.parseInt(linesFromFile.remove());
-                this.graph.get(i).neighborConns.put(name, weight);
+
+                // Find the node from the name
+                int index = this.nodeIdx.get(name);
+
+                // Add that node to the list
+                this.graph.get(i).neighborList.put(this.graph.get(index), weight);
+
+//                this.graph.get(i).neighborList.put(name, weight);
             }
         }
     }
@@ -112,11 +120,11 @@ public class Graph {
             System.out.println("------ Vertex: " + this.graph.get(i).name + " ------");
             System.out.println("Neighbor\t\t|Weight");
 
-            // Iterator for hashmap traversal
-            Iterator it = this.graph.get(i).neighborConns.entrySet().iterator();
+            Iterator it = this.graph.get(i).neighborList.entrySet().iterator();
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry)it.next();
-                System.out.println(pair.getKey() + "\t\t\t\t|" + pair.getValue());
+                Node node = (Node) pair.getKey();
+                System.out.println(node.name + "\t\t\t\t|" + pair.getValue());
             }
         }
     }

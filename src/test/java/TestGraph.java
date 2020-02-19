@@ -14,7 +14,6 @@ public class TestGraph {
     public void testInitGraph() throws IOException {
         g.initGraph();
         g.displayGraph();
-        g.displayGraph();
     }
 
     @Test
