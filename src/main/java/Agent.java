@@ -7,13 +7,19 @@ public class Agent {
     public ArrayList<Node> visitedList = new ArrayList<>();
     public ArrayList<Node> currentNeighbors = new ArrayList<>();
 
+    // Name of agent
     String name;
 
-    // The node the agent is currently at
-    Node currentNode;
+    Node currentNode;   // The node the agent is currently at
+    Node goalNode;      // The node that the agent is moving towards
 
     // Local copy of graph needed?
     Graph graph;
+
+    // Movement Variables
+    int speed;
+    int distanceTraveled;
+    int distanceGoal;
 
     /**
      * Constructor
@@ -23,15 +29,17 @@ public class Agent {
      * @param g The constructed graph
      * @param name The name of the agent, no necessary
      */
-    public Agent(String name, Graph g, Node currentNode){
+    public Agent(String name, Graph g, Node currentNode, double inSpeed){
         this.graph = g;
         this.name = name;
 
-        // Empty the visitiedList just in case
+        // Empty the visitedList just in case
         this.visitedList.clear();
+
 
         // Set the current node and all its neighbors
         this.currentNode = currentNode;
+
 
         // Iterate over the currentNode's neighbor list hashmap
         Iterator it = this.currentNode.neighborList.entrySet().iterator();
@@ -39,6 +47,13 @@ public class Agent {
             Map.Entry pair = (Map.Entry)it.next();
             this.currentNeighbors.add((Node) pair.getKey());
         }
+
+        // Set Traveling variabes. Speed needs to be made whole number
+        inSpeed = inSpeed * 10;
+        this.speed = (int) inSpeed;
+        this.distanceGoal = 0;
+        this.distanceTraveled = 0;
+        this.goalNode = null;
     }
 
     /**

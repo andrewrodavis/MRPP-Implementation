@@ -54,7 +54,7 @@ public class TestAgent {
 
         // Init the agents and push to queue
         for(int i = 0; i < 5; i++){
-            this.agents.add(new Agent(String.valueOf(i), g, g.graph.get(i)));
+            this.agents.add(new Agent(String.valueOf(i), g, g.graph.get(i), 0.2));
         }
 
         System.out.println("===============Testing Agent Initialization===============");

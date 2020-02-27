@@ -1,5 +1,5 @@
 import org.junit.Test;
-import sun.awt.image.ImageWatched;
+import org.testng.annotations.AfterTest;
 
 import java.io.File;
 import java.io.FileNotFoundException;

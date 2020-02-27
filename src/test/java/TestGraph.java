@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestGraph {
-    Graph g = new Graph("src/main/java/graph.csv");
+    Graph g = new Graph("java/graph.csv");
 
     public TestGraph() throws IOException {
     }

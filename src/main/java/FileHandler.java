@@ -14,7 +14,9 @@ public class FileHandler {
      * Function: readFromFile
      *
      * Reads data, line-by-line from the file object
+     * Currently written specifically for graph creation, NOT a general purpose file reader
      *
+     * @return line A list of all lines from the file separated by a dash
      */
     public Queue<String> readFromFile() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(this.f));
@@ -33,12 +35,12 @@ public class FileHandler {
         lines.add(scanner.next());
         lines.add("-");
 
-        // Get vertex list
+        // (Get vertex list)
         for(int i = 0; i < Integer.parseInt(lines.peek()); i++){
             String current = scanner.next().replaceAll("\r","").replace("\n","");
             lines.add(current);
         }
-        // Add delimiter and get number of neighbors list
+        // Add delimiter (and get number of neighbors list)
         lines.add("-");
         for(int i = 0; i < Integer.parseInt(lines.peek()); i++){
             String current = scanner.next().replaceAll("\r","").replace("\n","");

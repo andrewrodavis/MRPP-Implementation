@@ -85,8 +85,9 @@ public class Graph {
                 // Find the node from the name
                 int index = this.nodeIdx.get(name);
 
-                // Add that node to the list
-                this.graph.get(i).neighborList.put(this.graph.get(index), weight);
+                // Add that node to the hash list used for fast weight getting, and name list
+                this.graph.get(i).neighborList.put(this.graph.get(index), weight * 10);
+                this.graph.get(i).neighborListNames.add(name);
 
 //                this.graph.get(i).neighborList.put(name, weight);
             }

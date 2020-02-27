@@ -1,10 +1,14 @@
 Graph Data: https://github.com/davidbsp/patrolling_sim.git
 Graph Rep: https://stackoverflow.com/questions/1737627/java-how-to-represent-graphs
 
-Need the program flow:
-- Start program
-- Initialize the graph
-- Initialize the agents
-    -
-    - Place each one into the queue
--
+To Do:
+- Make file reader more general: for reading any CSV file
+- Make main() variables read from file, not hardcoded
+- Make init simulation in main() a class --> main() only times and runs
+
+***Very Important***
+- Robot speed is 0.2 m/s
+- By incrementing each step to reach the next node, e.g. += 0.2 until total distance traveled = distance of edge,
+    will run into problem of doubles --> 2.9999999999
+- Therefore the distance to travel may take extra steps, or over-estimate (this one is o.k. I think)
+- Solution: multiply by 10 to deal with integers
