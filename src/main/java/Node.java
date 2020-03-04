@@ -13,9 +13,11 @@ public class Node {
     public String name;
     public int numNeighbors;
 
+    // Updated whenever an agent reaches the node
     public double timeOfLastVisit;
     public double instantIdleTime;
-    public double avgIdleTime;
+    public double avgIdleTimeNow;           // I_vi(t)
+    public double avgIdleTimeLastVisit;     // I_vi(t_l)
 
     // List of neighbors by name
     ArrayList<String> neighborListNames = new ArrayList<>();

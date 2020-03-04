@@ -32,10 +32,8 @@ public class Simulator {
         // Main Loop
         while(true){
             for(int i = 0; i < this.agentList.size(); i++) {
-                // Get the next agent from the queue
+                // Get the next agent from the queue and remove from the list
                 Agent a = this.agentList.get(0);
-
-                // Remove the agent from arraylist to act as a queue
                 this.agentList.remove(0);
 
                 // If agent is either at a node, or their next move puts them at a node, do stuff to figure out next destination

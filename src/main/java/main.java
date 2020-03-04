@@ -71,8 +71,8 @@ public class main {
                 System.out.println("\t\t" + currNeigh.name + " : " + currNeigh.getNeighborWeight(currNeigh.neighborListNames.get(j)));
             }
             System.out.println("Speed: " + a.speed);
-            System.out.println("D to Travel: " + a.distanceToTravel);
-            System.out.println("D Traveled: " + a.distanceTravelled);
+//            System.out.println("D to Travel: " + a.distanceToTravel);
+//            System.out.println("D Traveled: " + a.distanceTravelled);
         }
     }
 }

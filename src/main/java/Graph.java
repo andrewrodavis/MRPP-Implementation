@@ -44,7 +44,7 @@ public class Graph {
         // Get the number of nodes
         this.numNodes = Integer.parseInt(linesFromFile.remove());
 
-        // Initialize the nodes and num neighbors.
+        // Initialize the nodes, num neighbors
         for(int i = 0; i < 2; i++){
             for(int j = 0; j < this.numNodes; j++){
                 String currVal = linesFromFile.remove();
@@ -68,13 +68,16 @@ public class Graph {
             }
         }
 
-        // Add neighbor lists
+        // Add neighbor lists, and the average idle time at the last visit = 0
         for(int i = 0; i < this.numNodes; i++){
             if(linesFromFile.peek() == "-"){
                 i--;
                 linesFromFile.remove();
                 continue;
             }
+
+            // Add the average idle time of last visit, of now, time of last visit, and instant idle time
+            this.graph.get(i).avgIdleTimeLastVisit = this.graph.get(i).avgIdleTimeNow = this.graph.get(i).timeOfLastVisit = this.graph.get(i).instantIdleTime = 0;
 
             //Iterate over the number of neighbors for the current node. Add the neighbor node object and weight to the hashmap of Node
             for(int j = 0; j < this.graph.get(i).numNeighbors; j++){
