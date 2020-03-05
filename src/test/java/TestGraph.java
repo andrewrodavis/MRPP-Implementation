@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestGraph {
-    Graph g = new Graph("java/graph.csv");
+    Graph g = new Graph("src/test/java/graph.csv");
 
     // Test Parameters
     int numNodes = 6;
@@ -21,6 +21,8 @@ public class TestGraph {
     @Test
     public void testInitGraph() throws IOException {
         Arrays.fill(this.arcs, 1.0);
+
+        System.out.println("dir: " + System.getProperty("user.dir"));
 
         System.out.println("===== Testing Init Graph =====");
         g.initGraph();
@@ -45,7 +47,9 @@ public class TestGraph {
         for(int i = 0; i < g.graph.size(); i++){
             for(int j = 0; j < g.graph.get(i).numNeighbors; j++){
                 if(!(g.graph.get(i).neighborListNames.get(j)).equals(this.neighbors[k])){
-                    System.out.println("\t!!");
+                    System.out.println("\t!! A neighbor was incorrect");
+                    System.out.println("\tInit Graph: " + g.graph.get(i).neighborListNames.get(j));
+                    System.out.println("\tExpected Value: " + this.nam);
                 }
             }
         }

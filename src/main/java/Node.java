@@ -18,13 +18,14 @@ public class Node {
     public double instantIdleTime;
     public double avgIdleTimeNow;           // I_vi(t)
     public double avgIdleTimeLastVisit;     // I_vi(t_l)
-    public double numVisits;
+    public int numVisits;
+    public boolean alreadyDeclared;
 
     // List of neighbors by name -- Delete Eventually
     ArrayList<String> neighborListNames = new ArrayList<>();
 
     // Replacement for ^^
-    ArrayList<Node> neighborNodeObjs = new ArrayList<>();
+    ArrayList<Node> neighborNodes = new ArrayList<>();
 
     // Hash for easy access to weights of neighbors
     HashMap<Node, Integer> neighborList = new HashMap<Node, Integer>();
@@ -34,6 +35,11 @@ public class Node {
     public Node(String name){
         this.name = name;
         this.numVisits = 0;
+        this.timeOfLastVisit = 0.0;
+        this.instantIdleTime = 0.0;
+        this.avgIdleTimeNow = 0.0;
+        this.avgIdleTimeLastVisit = 0.0;
+        this.alreadyDeclared = false;
     }
 
     /**

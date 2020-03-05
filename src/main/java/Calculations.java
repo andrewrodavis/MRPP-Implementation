@@ -12,11 +12,11 @@ public class Calculations {
      * @param graph The graph of the entire system
      * @param timeNow The time the agent begins calculations
      */
-    public double calcDegOfBelief(Node sourceNode, Node destNode, Graph graph, double timeNow){
-        double probMove = this.calcProbMove(graph, destNode, timeNow);
+    public static double calcDegOfBelief(Node sourceNode, Node destNode, Graph graph, double timeNow){
+        double probMove = calcProbMove(graph, destNode, timeNow);
 
         // Need to get arc strength from source node to node i
-        this.getArcStrength(sourceNode, destNode);
+        getArcStrength(sourceNode, destNode);
 
         return 0.0;
     }
@@ -30,8 +30,8 @@ public class Calculations {
      * @param nodeI The node that should be calculated
      * @param timeNow The time to do calculations with
      */
-    public double calcProbMove(Graph graph, Node nodeI, double timeNow){
-        double probMove = this.calcAvgIdleTimeNow(nodeI, timeNow) / this.calcSumAvgIdleTime(graph, timeNow);
+    public static double calcProbMove(Graph graph, Node nodeI, double timeNow){
+        double probMove = calcAvgIdleTimeNow(nodeI, timeNow) / calcSumAvgIdleTime(graph, timeNow);
 
         return probMove;
     }
@@ -44,8 +44,8 @@ public class Calculations {
      * @param nodeI Current node to do calculations with
      * @param timeNow The time to do calculations with
      */
-    public double calcAvgIdleTimeNow(Node nodeI, double timeNow){
-        double numerator = (this.calcAvgIdleTimeAtLastVisit(nodeI) * nodeI.numVisits) + calcInstantIdleTime(nodeI, timeNow);
+    public static double calcAvgIdleTimeNow(Node nodeI, double timeNow){
+        double numerator = (calcAvgIdleTimeAtLastVisit(nodeI) * nodeI.numVisits) + calcInstantIdleTime(nodeI, timeNow);
         double denom = nodeI.numVisits + 1;
 
         return numerator / denom;
@@ -59,7 +59,7 @@ public class Calculations {
      * @param graph The graph of the entire system
      * @param timeNow The time to do calculations with
      */
-    public double calcSumAvgIdleTime(Graph graph, double timeNow){
+    public static double calcSumAvgIdleTime(Graph graph, double timeNow){
         double allAvgIdleTimes = 0.0;
         for(Node n : graph.graph){
             allAvgIdleTimes += calcAvgIdleTimeNow(n, timeNow);
@@ -74,7 +74,7 @@ public class Calculations {
      *
      * @param nodeI The current node
      */
-    public double calcAvgIdleTimeAtLastVisit(Node nodeI){
+    public static double calcAvgIdleTimeAtLastVisit(Node nodeI){
 
         return 0.0;
     }
@@ -87,7 +87,7 @@ public class Calculations {
      * @param sourceNode
      * @param destNode
      */
-    public double getArcStrength(Node sourceNode, Node destNode){
+    public static double getArcStrength(Node sourceNode, Node destNode){
 
         return 0.0;
     }
@@ -105,7 +105,7 @@ public class Calculations {
      *
      * @return The instantaneous idle time
      */
-    public double calcInstantIdleTime(Node nodeI, double timeNow){
+    public static double calcInstantIdleTime(Node nodeI, double timeNow){
 
         return 0.0;
     }

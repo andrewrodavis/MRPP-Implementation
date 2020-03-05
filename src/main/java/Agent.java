@@ -20,6 +20,7 @@ public class Agent {
     int speed;
     int distanceTraveled;
     int distanceGoal;
+    Node destNode;
 
     /**
      * Constructor
@@ -54,6 +55,7 @@ public class Agent {
         this.distanceGoal = 0;
         this.distanceTraveled = 0;
         this.goalNode = null;
+        this.destNode = null;
     }
 
     /**

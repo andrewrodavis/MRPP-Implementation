@@ -36,6 +36,9 @@ public class Graph {
      * Initializes the graph by
      *      Filling this.graph with a node, each of which maintains its own neighbors list and weights
      *      (Maybe, depending on implementation) Initializes arc strength of each edge
+     *
+     * Format of input from file reading:
+     *      [ NumberOfNodes-Node List-Number of neighbors for each node-Node 1: Node/weight Node/weight-Node2: Node/weight Node/weight... ]
      */
     public void initGraph() throws IOException {
         // Read the lines from the file
@@ -44,7 +47,7 @@ public class Graph {
         // Get the number of nodes
         this.numNodes = Integer.parseInt(linesFromFile.remove());
 
-        // Initialize the nodes, num neighbors
+        // Initialize the nodes and number of neighbors
         for(int i = 0; i < 2; i++){
             for(int j = 0; j < this.numNodes; j++){
                 String currVal = linesFromFile.remove();
@@ -54,8 +57,9 @@ public class Graph {
                     j--;
                     continue;
                 }
-                // Add new Node()
+                // Need to add all new nodes first
                 if(i == 0){
+                    // Add the new node
                     this.graph.add(new Node((currVal)));
 
                     // Map the index of the node
@@ -76,9 +80,6 @@ public class Graph {
                 continue;
             }
 
-            // Add the average idle time of last visit, of now, time of last visit, and instant idle time
-            this.graph.get(i).avgIdleTimeLastVisit = this.graph.get(i).avgIdleTimeNow = this.graph.get(i).timeOfLastVisit = this.graph.get(i).instantIdleTime = 0;
-
             //Iterate over the number of neighbors for the current node. Add the neighbor node object and weight to the hashmap of Node
             for(int j = 0; j < this.graph.get(i).numNeighbors; j++){
                 // Get the name and weight from the file
@@ -91,7 +92,7 @@ public class Graph {
                 // Add that node to the hash list used for fast weight getting, and name list
                 this.graph.get(i).neighborList.put(this.graph.get(index), weight * 10);
                 this.graph.get(i).neighborListNames.add(name);
-                this.graph.get(i).neighborNodeObjs.add(this.graph.get(index));
+                this.graph.get(i).neighborNodes.add(this.graph.get(index));
 
                 // Add the initial arc length values
                 this.graph.get(i).neighborArcStrengths.put(this.graph.get(index), 1.0);
