@@ -91,6 +91,10 @@ public class Graph {
                 // Add that node to the hash list used for fast weight getting, and name list
                 this.graph.get(i).neighborList.put(this.graph.get(index), weight * 10);
                 this.graph.get(i).neighborListNames.add(name);
+                this.graph.get(i).neighborNodeObjs.add(this.graph.get(index));
+
+                // Add the initial arc length values
+                this.graph.get(i).neighborArcStrengths.put(this.graph.get(index), 1.0);
 
 //                this.graph.get(i).neighborList.put(name, weight);
             }
@@ -125,6 +129,14 @@ public class Graph {
             System.out.println("Neighbor\t\t|Weight");
 
             Iterator it = this.graph.get(i).neighborList.entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry pair = (Map.Entry)it.next();
+                Node node = (Node) pair.getKey();
+                System.out.println(node.name + "\t\t\t\t|" + pair.getValue());
+            }
+
+            System.out.println("Neighbor\t\t|Arc Strength");
+            it = this.graph.get(i).neighborArcStrengths.entrySet().iterator();
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry)it.next();
                 Node node = (Node) pair.getKey();

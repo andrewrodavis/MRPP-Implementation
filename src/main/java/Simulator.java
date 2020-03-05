@@ -65,7 +65,34 @@ public class Simulator {
      * @param a The current agent
      */
     public void atNode(Agent a){
-        // Calculate next node and everything that comes with it
+        // Get the time now
+        double timeNow = System.nanoTime();
+
+        // Calculate probability list of all nodes potential travelled to
+        ArrayList<Double> probList = new ArrayList<>();
+        for(int i = 0; i < a.currentNode.numNeighbors; i++){
+            // Get the next neighbor to check
+            Node destNode = a.currentNode.neighborNodeObjs.get(i);
+            probList.add(Calculations::calcDegOfBelief(a.currentNode, destNode, this.g, timeNow));
+        }
+
+        // Determine which node has the highest probability
+        int highestProbIdx = Integer.MIN_VALUE;
+        for(int i = 0; i < probList.size(); i++){
+            if(probList.get(i) > highestProbIdx){
+                highestProbIdx = i;
+            }
+        }
+
+        // highestProbIdx is the index, from neighbor list of a.currentNode, to travel to. Set all variables for travel
+        Node destNode = a.currentNode.neighborNodeObjs.get(highestProbIdx);
+
+        // Set the travel distance
+        a.distanceGoal = a.currentNode.getNeighborWeight(destNode.name);        // Set the travel distance
+
+        // Reset distance Traveled
+        a.distanceTraveled = 0;
+
         // Update node traveling to
         // distance to travel
         a.distanceGoal = 0; // ******Change to the distance of the neighbor chosen
