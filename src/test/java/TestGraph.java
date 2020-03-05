@@ -49,9 +49,40 @@ public class TestGraph {
                 if(!(g.graph.get(i).neighborListNames.get(j)).equals(this.neighbors[k])){
                     System.out.println("\t!! A neighbor was incorrect");
                     System.out.println("\tInit Graph: " + g.graph.get(i).neighborListNames.get(j));
-                    System.out.println("\tExpected Value: " + this.nam);
+                    System.out.println("\tExpected Value: " + this.neighbors[k]);
                 }
+                k++;
             }
+        }
+        System.out.println("--Checking Neighbor Weights; getNeighborWeight()--");
+        k = 0;
+        for(int i = 0; i < g.graph.size(); i++){
+            for(int j = 0; j < g.graph.get(i).numNeighbors; j++){
+                String n = g.graph.get(i).neighborNodes.get(j).name;
+                if(!(g.graph.get(i).getNeighborWeight(n) == this.weights[k])){
+                    System.out.println("\t!! A weight was incorrect");
+                    System.out.println("\tInit Graph: " + g.graph.get(i).getNeighborWeight(n));
+                    System.out.println("\tExpected Value: " + this.weights[k]);
+                }
+                k++;
+            }
+        }
+        System.out.println("--Checking Neighbor Arc Strengths--");
+        k = 0;
+        for(int i = 0; i < g.graph.size(); i++){
+            for(int j = 0; j < g.graph.get(i).numNeighbors; j++){
+                String n = g.graph.get(i).neighborNodes.get(j).name;
+                if(!(g.graph.get(i).getNeighborArc(n) == this.arcs[k])){
+                    System.out.println("\t!! An Arc was incorrect");
+                    System.out.println("\tInit Graph: " + g.graph.get(i).getNeighborArc(n));
+                    System.out.println("\tExpected Value: " + this.arcs[k]);
+                }
+                k++;
+            }
+        }
+        System.out.println("--Checking initial settings correct");
+        for(Node n : g.graph){
+
         }
 
         g.displayGraph();
