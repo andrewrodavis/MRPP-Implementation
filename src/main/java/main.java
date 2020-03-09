@@ -18,8 +18,8 @@ public class main {
      */
     public static void main(String[] args) throws IOException {
         // Changeable variables
-        Graph graph = new Graph("src/main/java/graph.csv");
-        int numAgents = 5;
+        Graph graph = new Graph("src/main/java/graph2.csv");
+        int numAgents = 3;
         double agentSpeed = 0.2;
         ArrayList<String> agentNames = new ArrayList<>();
 
@@ -30,8 +30,8 @@ public class main {
         agentNames.add("1");
         agentNames.add("2");
         agentNames.add("3");
-        agentNames.add("4");
-        agentNames.add("5");
+//        agentNames.add("4");
+//        agentNames.add("5");
 
         // Check that you don't go out of range
         if(agentNames.size() != numAgents){
@@ -45,7 +45,7 @@ public class main {
         // Initialize agents
         for(int i = 0; i < numAgents; i++){
             // Get start node: start off all at same node
-            Node startNode = graph.graph.get(i);
+            Node startNode = graph.graph.get(0);
             agentList.add(new Agent(agentNames.get(i), graph, startNode, agentSpeed));
         }
 
@@ -55,24 +55,11 @@ public class main {
         // Run Simulation
         long runTime = sim.runSimulation();
 
-
-
-
-
-        // Print agent info
-        // Currently broken at first internal while loop, neighborWeight
-        for(Agent a : agentList){
-            System.out.println("\n-----New Agent-----");
-            System.out.println("Name: " + a.name);
-            System.out.println("Start Node: " + a.currentNode.name);
-            System.out.println("Neighbor List");
-            for(int j = 0; j < a.currentNeighbors.size(); j++){
-                Node currNeigh = a.currentNeighbors.get(j);
-                System.out.println("\t\t" + currNeigh.name + " : " + currNeigh.getNeighborWeight(currNeigh.neighborListNames.get(j)));
-            }
-            System.out.println("Speed: " + a.speed);
-//            System.out.println("D to Travel: " + a.distanceToTravel);
-//            System.out.println("D Traveled: " + a.distanceTravelled);
+        // Print all information
+        System.out.println("=============Simulation Completed Successfully=============");
+        System.out.println("Number of visits to each node");
+        for(Node node : graph.graph){
+            System.out.println("\tNode " + node.name + ": " + node.numVisits);
         }
     }
 }

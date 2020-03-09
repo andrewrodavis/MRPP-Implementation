@@ -21,6 +21,7 @@ public class TestGraph {
     @Test
     public void testInitGraph() throws IOException {
         Arrays.fill(this.arcs, 1.0);
+        int numFailures = 0;
 
         System.out.println("dir: " + System.getProperty("user.dir"));
 
@@ -32,14 +33,16 @@ public class TestGraph {
         if(g.numNodes != this.numNodes){
             System.out.println("\t!! Number of nodes incorrect");
             System.out.println("\tInit Graph: " + g.numNodes);
-            System.out.println("\tExpected Value: " + this.numNodes);
+            System.out.println("\tExpected Value: " + this.numNodes + "\n");
+            numFailures++;
         }
         System.out.println("--Checking Node List--");
         for(int i = 0; i < this.nodeList.length; i++){
             if(!(this.nodeList[i].equals(g.graph.get(i).name))){
                 System.out.println("\t!! Name of node incorrect");
                 System.out.println("\tInit Graph: " + g.graph.get(i).name);
-                System.out.println("\tExpected Value: " + this.nodeList[i]);
+                System.out.println("\tExpected Value: " + this.nodeList[i] + "\n");
+                numFailures++;
             }
         }
         System.out.println("--Checking Neighbor List--");
@@ -49,7 +52,8 @@ public class TestGraph {
                 if(!(g.graph.get(i).neighborListNames.get(j)).equals(this.neighbors[k])){
                     System.out.println("\t!! A neighbor was incorrect");
                     System.out.println("\tInit Graph: " + g.graph.get(i).neighborListNames.get(j));
-                    System.out.println("\tExpected Value: " + this.neighbors[k]);
+                    System.out.println("\tExpected Value: " + this.neighbors[k] + "\n");
+                    numFailures++;
                 }
                 k++;
             }
@@ -59,15 +63,16 @@ public class TestGraph {
         for(int i = 0; i < g.graph.size(); i++){
             for(int j = 0; j < g.graph.get(i).numNeighbors; j++){
                 String n = g.graph.get(i).neighborNodes.get(j).name;
-                if(!(g.graph.get(i).getNeighborWeight(n) == this.weights[k])){
+                if(!(g.graph.get(i).getNeighborWeight(n) == this.weights[k] * 10)){
                     System.out.println("\t!! A weight was incorrect");
                     System.out.println("\tInit Graph: " + g.graph.get(i).getNeighborWeight(n));
-                    System.out.println("\tExpected Value: " + this.weights[k]);
+                    System.out.println("\tExpected Value: " + this.weights[k] + "\n");
+                    numFailures++;
                 }
                 k++;
             }
         }
-        System.out.println("--Checking Neighbor Arc Strengths--");
+        System.out.println("--Checking Neighbor Arc Strengths; getNeighborArc()--");
         k = 0;
         for(int i = 0; i < g.graph.size(); i++){
             for(int j = 0; j < g.graph.get(i).numNeighbors; j++){
@@ -75,18 +80,43 @@ public class TestGraph {
                 if(!(g.graph.get(i).getNeighborArc(n) == this.arcs[k])){
                     System.out.println("\t!! An Arc was incorrect");
                     System.out.println("\tInit Graph: " + g.graph.get(i).getNeighborArc(n));
-                    System.out.println("\tExpected Value: " + this.arcs[k]);
+                    System.out.println("\tExpected Value: " + this.arcs[k] + "\n");
+                    numFailures++;
                 }
                 k++;
             }
         }
         System.out.println("--Checking initial settings correct");
         for(Node n : g.graph){
-
+            if(n.timeOfLastVisit != 0){
+                System.out.println("Time of Last Visit Incorrect: " + n.timeOfLastVisit + "\n");
+                numFailures++;
+            }
+            if(n.instantIdleTime != 0){
+                System.out.println("Instant Idle Time Incorrect: " + n.instantIdleTime + "\n");
+                numFailures++;
+            }
+            if(n.avgIdleTimeNow != 0){
+                System.out.println("Average Idle Time Now Incorrect: " + n.avgIdleTimeNow + "\n");
+                numFailures++;
+            }
+            if(n.avgIdleTimeLastVisit != 0){
+                System.out.println("Average Idle Time of Last Visit: " + n.avgIdleTimeLastVisit + "\n");
+                numFailures++;
+            }
+            if(n.numVisits != 0){
+                System.out.println("Number of Visits Incorrect: " + n.numVisits + "\n");
+                numFailures++;
+            }
+            if(n.alreadyDeclared){
+                System.out.println("Already Declared Incorrect");
+                numFailures++;
+            }
         }
 
-        g.displayGraph();
+        System.out.println("Failures: " + numFailures);
         System.out.println("===== Testing Init Graph Complete =====");
+//        g.displayGraph();
     }
 
     @Test

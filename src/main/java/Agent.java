@@ -11,7 +11,6 @@ public class Agent {
     String name;
 
     Node currentNode;   // The node the agent is currently at
-    Node goalNode;      // The node that the agent is moving towards
 
     // Local copy of graph needed?
     Graph graph;
@@ -21,6 +20,9 @@ public class Agent {
     int distanceTraveled;
     int distanceGoal;
     Node destNode;
+
+    // Arc Strength Calculation Variables
+//    ArrayList<Double>
 
     /**
      * Constructor
@@ -54,8 +56,7 @@ public class Agent {
         this.speed = (int) inSpeed;
         this.distanceGoal = 0;
         this.distanceTraveled = 0;
-        this.goalNode = null;
-        this.destNode = null;
+        this.destNode = this.currentNode;
     }
 
     /**
