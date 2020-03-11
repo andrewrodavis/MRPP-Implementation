@@ -18,8 +18,16 @@ public class Node {
     public double instantIdleTime;
     public double avgIdleTimeNow;           // I_vi(t)
     public double avgIdleTimeLastVisit;     // I_vi(t_l)
+    public double avgIdleTimeLastVisitPotential;
     public int numVisits;
     public boolean alreadyDeclared;
+
+    // Move Calculation Variables: Kind of cheating
+    public ArrayList<Double> degsOfBelief = new ArrayList<>();
+    public double degOfBelief;
+
+    // Arc Strength Calculations
+    double normalizedVisit;
 
     // List of neighbors by name -- Delete Eventually
     ArrayList<String> neighborListNames = new ArrayList<>();
@@ -39,7 +47,12 @@ public class Node {
         this.instantIdleTime = 0.0;
         this.avgIdleTimeNow = 0.0;
         this.avgIdleTimeLastVisit = 0.0;
+        this.avgIdleTimeLastVisitPotential = 0.0;
         this.alreadyDeclared = false;
+
+        this.normalizedVisit = 0.0;
+
+        this.degOfBelief = 0.0;
     }
 
     /**
