@@ -12,3 +12,12 @@ To Do:
     will run into problem of doubles --> 2.9999999999
 - Therefore the distance to travel may take extra steps, or over-estimate (this one is o.k. I think)
 - Solution: multiply by 10 to deal with integers
+
+
+===========================================
+Notes during Implementation:
+- Do I need a current node value for the agent, if I have the destination node?
+- Should I maintain all nodes visited by the agent in a list?
+- IMPORTANT: How do I manage updating the average idle time at the last time step? I shouldn't update it until that node is declared as being visited.
+- Agents do not change trajectory mid-flight. Once they declare a node, they reach that node and do not do any further calculations until they reach it.
+    - e.g. If an agent is mid-travel and another hits a node, the mid-travel agent still moves towards the destination
