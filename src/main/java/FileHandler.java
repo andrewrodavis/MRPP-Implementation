@@ -6,8 +6,8 @@ public class FileHandler {
     // File object
     public File f;
 
-    public FileHandler(String graphFile) {
-        f = new File(graphFile);
+    public FileHandler(String file) {
+        f = new File(file);
     }
 
     /**
@@ -70,11 +70,18 @@ public class FileHandler {
     /**
      * Function: writeToFile
      *
-     * Writes the input data to the specified file
+     * Writes the input data to the specified file, one line at a time
      *
      * @param
      */
-    public void writeToFile(){
+    public void writeToFile(ArrayList<String> writeThis) throws IOException {
+        FileWriter fw = new FileWriter(this.f);
+        PrintWriter out = new PrintWriter(fw);
 
+        for(int i = 0; i < writeThis.size() - 1; i++){
+            out.print(writeThis.get(i));
+            out.print(",");
+        }
+        out.print(writeThis.get(writeThis.size() - 1));
     }
 }

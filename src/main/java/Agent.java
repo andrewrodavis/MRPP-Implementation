@@ -4,13 +4,17 @@ import java.util.Map;
 
 public class Agent {
     // List of all the nodes that the agent visits over the course of the simulation
-    public ArrayList<Node> visitedList = new ArrayList<>();
+    public ArrayList<String> visitedList = new ArrayList<>();
     public ArrayList<Node> currentNeighbors = new ArrayList<>();
 
     // Name of agent
     String name;
 
+    // Node Position Tracking
     Node currentNode;   // The node the agent is currently at
+    Node destNode;      // The node selected to travel to
+    Node sourceNode;    // The node traveled from. i.e. Path = sourceNode -> destNode
+    Node initialNode;
 
     // Local copy of graph needed?
     Graph graph;
@@ -19,10 +23,7 @@ public class Agent {
     int speed;
     int distanceTraveled;
     int distanceGoal;
-    Node destNode;
 
-    // Arc Strength Calculation Variables
-//    ArrayList<Double>
 
     /**
      * Constructor
@@ -42,6 +43,11 @@ public class Agent {
 
         // Set the current node and all its neighbors
         this.currentNode = currentNode;
+        this.sourceNode = currentNode;
+        this.destNode = null;
+        this.initialNode = currentNode;
+
+        this.currentNode.alreadyDeclared = true;
 
 
         // Iterate over the currentNode's neighbor list hashmap
@@ -51,21 +57,20 @@ public class Agent {
             this.currentNeighbors.add((Node) pair.getKey());
         }
 
-        // Set Traveling variabes. Speed needs to be made whole number
+        // Set Traveling variables. Speed needs to be made whole number
         inSpeed = inSpeed * 10;
         this.speed = (int) inSpeed;
         this.distanceGoal = 0;
         this.distanceTraveled = 0;
-        this.destNode = this.currentNode;
     }
 
-    /**
-     * Function: bayesPatrol()
-     *
-     * The algorithm ran for a robot to patrol the nodes from the paper
-     * Updates the universal table
-     */
-    public void bayesPatrol(){
-
+    public void reset(){
+        this.visitedList.clear();
+        this.currentNode = this.initialNode;
+        this.sourceNode = this.initialNode;
+        this.destNode = null;
+        this.currentNode.alreadyDeclared = true;
+        this.distanceTraveled = 0;
+        this.distanceGoal = 0;
     }
 }

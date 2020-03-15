@@ -84,13 +84,15 @@ public class Graph {
             for(int j = 0; j < this.graph.get(i).numNeighbors; j++){
                 // Get the name and weight from the file
                 String name = linesFromFile.remove();
-                int weight = Integer.parseInt(linesFromFile.remove());
+                double weight = Double.parseDouble(linesFromFile.remove());
+
+                int adjustedWeight = (int)(weight * 10.0);
 
                 // Find the node from the name
                 int index = this.nodeIdx.get(name);
 
                 // Add that node to the hash list used for fast weight getting, and name list
-                this.graph.get(i).neighborList.put(this.graph.get(index), weight * 10);
+                this.graph.get(i).neighborList.put(this.graph.get(index), adjustedWeight);//, weight * 10.0);
                 this.graph.get(i).neighborListNames.add(name);
                 this.graph.get(i).neighborNodes.add(this.graph.get(index));
 
@@ -146,4 +148,153 @@ public class Graph {
         }
     }
 
+    /**
+     * getMaxArcStrengthNode/getMinArcStrengthNode
+     *
+     * Variation on something similar to Collections.max()
+     * Finds the node with the largest neighbor arc strength for the current node's neighbor list
+     *
+     * @param sourceNode The node to start searching from
+     * @return
+     */
+    public Node getMaxArcStrengthNode(Node sourceNode){
+        double maxValue = Double.MIN_VALUE;
+        Node highestNode = null;
+
+        for(Node node : sourceNode.neighborNodes){
+            if(node.normalizedVisit > maxValue){
+                highestNode = node;
+            }
+        }
+        return highestNode;
+    }
+    /**********************************************************/
+    public Node getMinArcStrengthNode(Node sourceNode){
+        double minValue = Double.MAX_VALUE;
+        Node lowestNode = null;
+
+        for(Node node : sourceNode.neighborNodes){
+            if(node.normalizedVisit < minValue){
+                lowestNode = node;
+            }
+        }
+        return lowestNode;
+    }
+
+    /**
+     * function: getMaxDegreeOfBelief
+     *
+     * Variation on something similar to Collections.max()
+     * Finds the node that is maximal in the given list based on the degrees of belief
+     * Different from above two due to the list passed in here being smaller on subsequent calls
+     *
+     * @param potentialList
+     * @return
+     */
+    public Node getMaxDegreeOfBelief(ArrayList<Node> potentialList){
+        if(potentialList == null){
+            return null;
+        }
+        double maxValue = Double.MIN_VALUE;
+        Node highestNode = null;
+
+        for(Node node : potentialList){
+            if(node.degOfBelief > maxValue){
+                highestNode = node;
+                maxValue = node.degOfBelief;
+            }
+        }
+        return highestNode;
+    }
+
+    /**
+     * Function: getMaxEntropy/getMinEntropy
+     *
+     * Same-ish as above but for entropy
+     * This adds a tiebreaker
+     *
+     * @param potentialList
+     * @return
+     */
+    public Node getMaxEntropy(ArrayList<Node> potentialList) {
+        // If empty, no more available moves
+        if (potentialList.size() == 0) {
+            return null;
+        }
+        // If 1, just return it already
+        if(potentialList.size() == 1){
+            return potentialList.get(0);
+        }
+
+        Node moveNode = potentialList.get(0);
+        boolean ties = false;
+        ArrayList<Node> tiedNodes = new ArrayList<>();
+
+        // Get the highest
+        for (Node node : potentialList) {
+            if (moveNode.entropyValue < node.entropyValue) {
+                moveNode = node;
+            }
+        }
+
+        // Then check for ties
+        for (Node node : potentialList) {
+            if (moveNode.entropyValue == node.entropyValue && !(moveNode.name.equals(node.name))) {
+                tiedNodes.add(node);
+                ties = true;
+            }
+        }
+
+        // If a tie, get the one with the smaller last visit time, and therefore the one that has been visited the furthest in the past
+        if (ties) {
+            for (Node node : tiedNodes) {
+                if (moveNode.timeOfLastVisit > node.timeOfLastVisit) {
+                    moveNode = node;
+                }
+            }
+        }
+
+        return moveNode;
+    }
+    /**********************************************************/
+    public Node getMinEntropy(ArrayList<Node> potentialList) {
+        // If empty, no more available moves
+        if (potentialList.size() == 0) {
+            return null;
+        }
+        // If 1, just return it already
+        if(potentialList.size() == 1){
+            return potentialList.get(0);
+        }
+
+        Node moveNode = potentialList.get(0);
+        boolean ties = false;
+        ArrayList<Node> tiedNodes = new ArrayList<>();
+
+        // Get the highest
+        for (Node node : potentialList) {
+            if (moveNode.entropyValue > node.entropyValue) {
+                moveNode = node;
+            }
+        }
+
+        // Then check for ties
+        for (Node node : potentialList) {
+            if (moveNode.entropyValue == node.entropyValue && !(moveNode.name.equals(node.name))) {
+                tiedNodes.add(node);
+                ties = true;
+            }
+        }
+
+        // If a tie, get the one with the smaller last visit time, and therefore the one that has been visited the furthest in the past
+        if (ties) {
+            for (Node node : tiedNodes) {
+                if (moveNode.timeOfLastVisit < node.timeOfLastVisit) {
+                    moveNode = node;
+                }
+            }
+        }
+
+        return moveNode;
+    }
 }
