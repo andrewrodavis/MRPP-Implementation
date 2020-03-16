@@ -1,4 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -16,13 +19,14 @@ public class main {
      */
     public static void main(String[] args) throws IOException {
         // Changeable variables
-        Graph graph = new Graph("src/main/java/graphs/simGraph.csv");
-        int numAgents = 1;
-        int numRuns = 3;
-        double agentSpeed = 5.0;
-        boolean randStart = false;
-        String algorithm = "d";
+        String graphFile = "src/main/java/graphs/simGraph.csv";
+        String dataFile = "src/main/java/dataV2.csv";
+        int numAgents = 8;
+        int numRuns = 10_000;
+        double agentSpeed = 0.2;
+        boolean randStart = true;
 
+        Graph graph = new Graph(graphFile);
         ArrayList<String> algorithms = new ArrayList<>();
         ArrayList<String> agentNames = new ArrayList<>();
         ArrayList<Integer> startingNodes = new ArrayList<>();
@@ -61,92 +65,87 @@ public class main {
             agentList.add(new Agent(agentNames.get(i), graph, startNode, agentSpeed));
         }
 
-        ArrayList<String> writeFile = new ArrayList<>();
-        FileHandler handler = new FileHandler("data.csv");
+        StringBuilder sb = new StringBuilder();
 
-        //
-        writeFile.add("Run Number");
-        writeFile.add("Simulation Iterations");
-        writeFile.add("Run Time ns");
-        writeFile.add("Run Time ms");
-        writeFile.add("Run Time seconds");
-        writeFile.add("Average Idle Graph Time");
-        writeFile.add("Agent");
-        writeFile.add("Path");
-        handler.writeToFile(writeFile);
+        // Add Headers for Performance
+        sb.append("\n----- NEW DATA SET -----\n");
+        sb.append("Algorithm,");
+        sb.append("Random Initial Node,");
+        sb.append("Run Number,");
+        sb.append("Number of Agents,");
+        sb.append("Agent Speed,");
+        sb.append("Simulation Iterations,");
+        sb.append("Run Time ns,");
+        sb.append("Run Time ms,");
+        sb.append("Run Time seconds,");
+        sb.append("Average Idle Graph Time ns,");
+        sb.append("Average Idle Graph Time ms,");
+        sb.append("Average Idle Graph Time sec,");
+        FileHandler.writeToFile(dataFile, sb);
+        sb.setLength(0);
+
+        main.runSim(algorithms, graph, agentList, agentNames, numRuns, numAgents, randStart, dataFile, agentSpeed);
+    }
+
+    /**
+     *
+     * @param algorithms
+     * @param graph
+     * @param agentList
+     * @param agentNames
+     * @param numRuns
+     * @param numAgents
+     * @param randStart
+     * @param dataFile
+     * @param agentSpeed
+     * @throws IOException
+     */
+    public static void runSim(ArrayList<String> algorithms, Graph graph, ArrayList<Agent> agentList, ArrayList<String> agentNames,
+                              int numRuns, int numAgents, boolean randStart, String dataFile, double agentSpeed) throws IOException {
+        StringBuilder sb = new StringBuilder();
 
         // Run Simulation n times
         for(int j = 0; j < 2; j++) {
-            algorithm = algorithms.get(j);
+            String algorithm = algorithms.get(j);
 
             // Simulator object
             Simulator sim = new Simulator(graph, agentList, agentNames, algorithm, 3);
 
             for (int i = 0; i < numRuns; i++) {
                 // Clear write buffer
-                writeFile.clear();
+//                writeFile.clear();
 
                 // Get timings of run
                 long runTimeNano = sim.runSimulation();
                 double runTimeMilli = (double) runTimeNano / 1000000.0;
                 double runTimeSeconds = (double) runTimeNano / 1_000_000_000.0;
                 // Get timings of average idleness
-                long avgGraphIdleTimeNano = (long) CalculateBayes.calculateAvgIdleTimeOfGraph(graph);
+                long avgGraphIdleTimeNano = (long)CalculateBayes.calculateAvgIdleTimeOfGraph(graph);
                 double graphTimeMilli = (double) avgGraphIdleTimeNano / 1000000.0;
                 double graphTimeSeconds = (double) avgGraphIdleTimeNano / 1_000_000_000.0;
 
                 // Add info to write buffer
-                writeFile.add(algorithm);
-                writeFile.add(String.valueOf(i));
-                writeFile.add(String.valueOf(sim.runs));
-                writeFile.add(String.valueOf(runTimeNano));
-                writeFile.add(String.valueOf(runTimeMilli));
-                writeFile.add(String.valueOf(runTimeSeconds));
-                writeFile.add(String.valueOf(avgGraphIdleTimeNano));
-                writeFile.add(String.valueOf(graphTimeMilli));
-                writeFile.add(String.valueOf(graphTimeSeconds));
-
-                for(Agent a : sim.agentList){
-                    writeFile.add(a.name);
-                    writeFile.add(a.initialNode.name);
-                    for(String node : a.visitedList){
-                        writeFile.add(" -> ");
-                        writeFile.add(node);
-                    }
+                sb.append(algorithm + ",");
+                if(randStart){
+                    sb.append("yes,");
                 }
+                else{
+                    sb.append("no,");
+                }
+                sb.append(String.valueOf(i) + ",");
+                sb.append(numAgents + ",");
+                sb.append(agentSpeed + ",");
+                sb.append(String.valueOf(sim.runs) + ",");
+                sb.append(String.valueOf(runTimeNano) + ",");
+                sb.append(String.valueOf(runTimeMilli) + ",");
+                sb.append(String.valueOf(runTimeSeconds) + ",");
+                sb.append(String.valueOf(avgGraphIdleTimeNano) + ",");
+                sb.append(String.valueOf(graphTimeMilli) + ",");
+                sb.append(String.valueOf(graphTimeSeconds) + ",");
 
-                handler.writeToFile(writeFile);
+                FileHandler.writeToFile(dataFile, sb);
+                sb.setLength(0);
             }
         }
-
-
-
-
-
-        // Calculate graph average idle time
-//        long runTimeNano = sim.runSimulation();
-//        double runTimeMilli = (double) runTimeNano / 1000000.0;
-//        double runTimeSeconds = (double) runTimeNano / 1_000_000_000.0;
-//        // Get timings of average idleness
-//        long avgGraphIdleTimeNano = (long) CalculateBayes.calculateAvgIdleTimeOfGraph(graph);
-//        double graphTimeMilli = (double) avgGraphIdleTimeNano / 1000000.0;
-//        double graphTimeSeconds = (double) avgGraphIdleTimeNano / 1_000_000_000.0;
-//
-//        // Print all information
-//        System.out.println("=============Simulation Completed Successfully=============");
-//        System.out.println("Total Runtime: " + runTimeNano + " ns");
-//        System.out.println("Total Runtime: " + runTimeMilli + " ms");
-//        System.out.println("Total Runtime: " + runTimeSeconds + " seconds");
-//        System.out.println("Average Graph Idle Time: " + avgGraphIdleTimeNano + "ns");
-//        System.out.println("Average Graph Idle Time: " + graphTimeMilli + " ms");
-//        System.out.println("Average Graph Idle Time: " + graphTimeSeconds + " seconds");
-//        System.out.println("Node Average Idle Times");
-//        System.out.println("Total Iterations: " + sim.runs);
-//        System.out.println("Number of visits to each node");
-//        for(Node node : graph.graph){
-//            System.out.println("\tNode " + node.name + ": " + node.numVisits);
-//        }
-//        System.out.println("Paths of each agent");
-//        sim.printCurrentPaths(sim.agentList);
     }
 }

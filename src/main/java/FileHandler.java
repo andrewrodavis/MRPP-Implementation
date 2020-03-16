@@ -66,22 +66,18 @@ public class FileHandler {
 
         return lines;
     }
+    public static void writeToFile(String file ,StringBuilder sb) throws IOException {
+//        FileWriter writer = new FileWriter(file);
+//        for(String data : write){
+//            writer.append(data);
+//            System.out.println(data);
+//        }
 
-    /**
-     * Function: writeToFile
-     *
-     * Writes the input data to the specified file, one line at a time
-     *
-     * @param
-     */
-    public void writeToFile(ArrayList<String> writeThis) throws IOException {
-        FileWriter fw = new FileWriter(this.f);
-        PrintWriter out = new PrintWriter(fw);
-
-        for(int i = 0; i < writeThis.size() - 1; i++){
-            out.print(writeThis.get(i));
-            out.print(",");
+        try(FileWriter filewriter = new FileWriter(file, true)){
+            PrintWriter writer = new PrintWriter(filewriter);
+            writer.println(sb.toString());
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
         }
-        out.print(writeThis.get(writeThis.size() - 1));
     }
 }

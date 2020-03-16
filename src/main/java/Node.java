@@ -49,10 +49,10 @@ public class Node {
         this.name = name;
         this.numVisits = 0;
         this.timeOfLastVisit = 0;
-        this.instantIdleTime = 0;
-        this.avgIdleTimeNow = 0;
-        this.avgIdleTimeLastVisit = 0;
-        this.avgIdleTimeLastVisitPotential = 0;
+        this.instantIdleTime = 0.0;
+        this.avgIdleTimeNow = 0.0;
+        this.avgIdleTimeLastVisit = 0.0;
+        this.avgIdleTimeLastVisitPotential = 0.0;
         this.alreadyDeclared = false;
 
         this.normalizedVisit = 0.0;

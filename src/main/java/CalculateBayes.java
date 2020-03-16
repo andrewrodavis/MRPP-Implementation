@@ -311,7 +311,6 @@ public class CalculateBayes {
         for(Node node : graph.graph){
             avgIdleTime += node.avgIdleTimeLastVisit;
         }
-        System.out.println("Sum: " + avgIdleTime);
         return (avgIdleTime) / (1.0 / (double)graph.numNodes);
     }
 }

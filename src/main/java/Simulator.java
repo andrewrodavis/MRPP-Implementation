@@ -12,7 +12,9 @@ public class Simulator {
     long totalRunTime;
     int runs;
 
+    // ****** Debugging
     boolean debugFlag = false;
+    int modVal = 10;
 
     /**
      * Constructor
@@ -38,8 +40,6 @@ public class Simulator {
         for(Agent a : this.agentList){
             a.currentNode.numVisits++;
         }
-
-        System.out.println("=====================Starting Simulation=====================");
         long startTime = System.nanoTime();
 
         // Begin the main loop
@@ -83,7 +83,7 @@ public class Simulator {
 
             // ********** Debugging
             if(debugFlag) {
-                if (runs % 1 == 0) {
+                if (runs % modVal == 0) {
                     // Print agent current paths taken
                     System.out.println("Number of Visits");
                     for (Node node : this.g.graph) {
@@ -131,6 +131,7 @@ public class Simulator {
         ArrayList<Node> potentialDestinationNode = new ArrayList<>();
         for(Node node : a.currentNode.neighborNodes){
             CalculateEntropy.calculateEntropyValue(this.agentList.size() + 1, a.graph.numNodes, a.currentNode, node);
+            a.currentNode.avgIdleTimeNow = CalculateBayes.calcAvgIdleTimeNow(node, currentTime);
             potentialDestinationNode.add(node);
         }
 
